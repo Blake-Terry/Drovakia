@@ -21,6 +21,56 @@ export function Home() {
   const [speed, setSpeed] = useState(0.7);
   useEffect(() => {
     if (reduced || !root.current) return;
+    const intro = gsap.context(() => {
+      gsap.fromTo(
+        ".hero h1 > span",
+        { yPercent: 28, opacity: 0 },
+        {
+          yPercent: 0,
+          opacity: 1,
+          duration: 1.25,
+          ease: "power3.out",
+          stagger: 0.15,
+          delay: 0.12,
+        },
+      );
+      gsap.fromTo(
+        ".hero__bottom",
+        { clipPath: "inset(0 100% 0 0)" },
+        {
+          clipPath: "inset(0 0% 0 0)",
+          duration: 1.2,
+          ease: "power3.inOut",
+          delay: 0.45,
+        },
+      );
+      gsap.fromTo(
+        ".feature__surface",
+        { clipPath: "inset(0 0 100% 0)" },
+        {
+          clipPath: "inset(0 0 0% 0)",
+          duration: 1.2,
+          ease: "power3.inOut",
+          stagger: 0.12,
+          scrollTrigger: { trigger: ".featured__grid", start: "top 75%" },
+        },
+      );
+      gsap.fromTo(
+        ".experimental__visual",
+        { scale: 0.78, rotate: -9 },
+        {
+          scale: 1.13,
+          rotate: 7,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".experimental",
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
+          },
+        },
+      );
+    }, root);
     const media = gsap.matchMedia();
     media.add("(min-width: 960px)", () => {
       const scope = root.current!;
@@ -60,7 +110,10 @@ export function Home() {
         });
       }
     });
-    return () => media.revert();
+    return () => {
+      intro.revert();
+      media.revert();
+    };
   }, [reduced]);
   return (
     <div ref={root} className="home">
@@ -71,13 +124,13 @@ export function Home() {
         </div>
         <div className="hero__meta">
           <span>
-            <i className="status-dot" /> INTERACTIVE SYSTEMS / VOL. 01
+            <i className="status-dot" /> FICTIONAL STUDIO / VOL. 01
           </span>
           <span>SCROLL TO EXPLORE ↓</span>
         </div>
         <div className="hero__type">
           <div className="hero__intro">
-            A FICTIONAL COMPONENT INDEX
+            A FICTIONAL CREATIVE STUDIO
             <br />
             BUILT FOR THE UNEXPECTED.
           </div>
@@ -92,8 +145,8 @@ export function Home() {
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
               Vestibulum id ligula porta felis euismod semper.
             </p>
-            <a href="#/effect/tidal-lattice">
-              ENTER THE INDEX <span>↗</span>
+            <a href="#work">
+              EXPLORE THE WORK <span>↗</span>
             </a>
           </div>
         </div>
@@ -103,7 +156,7 @@ export function Home() {
         </div>
       </section>
 
-      <section className="statement">
+      <section className="statement" id="about">
         <div className="statement__top">
           <span>001 / THE PREMISE</span>
           <span>FORM IS NEVER STILL</span>
@@ -123,23 +176,23 @@ export function Home() {
               id dolor id nibh ultricies vehicula ut id elit.
             </p>
             <span>
-              31 STUDIES
+              04 DIRECTIONS
               <br />
-              09 FAMILIES
+              12 MOMENTS
               <br />∞ POSSIBILITIES
             </span>
           </div>
         </div>
       </section>
 
-      <section className="featured">
+      <section className="featured" id="work">
         <div className="section-intro">
           <div>
-            <span className="overline">002 / SELECTED STUDIES</span>
+            <span className="overline">002 / SELECTED MOMENTS</span>
             <h2>
               Signals from
               <br />
-              <em>the index.</em>
+              <em>the field.</em>
             </h2>
           </div>
           <p>
@@ -148,40 +201,40 @@ export function Home() {
           </p>
         </div>
         <div className="featured__grid">
-          <a className="feature feature--wide" href="#/effect/contour-field">
+          <div className="feature feature--wide">
             <div className="feature__surface">
               <ContourField speed={0.45} density={24} intensity={1} />
             </div>
             <div className="feature__caption">
-              <span>BACKGROUND / 03</span>
-              <strong>Contour Field</strong>
-              <b>↗</b>
+              <span>FORM STUDY / 01</span>
+              <strong>Lorem contour</strong>
+              <b>✳</b>
             </div>
-          </a>
-          <a className="feature feature--card" href="#/effect/foil-card">
+          </div>
+          <div className="feature feature--card">
             <div className="feature__surface">
               <FoilCard />
             </div>
             <div className="feature__caption">
-              <span>CARDS / 02</span>
-              <strong>Foil Card</strong>
-              <b>↗</b>
+              <span>OBJECT STUDY / 02</span>
+              <strong>Ipsum form</strong>
+              <b>✳</b>
             </div>
-          </a>
-          <a className="feature feature--type" href="#/effect/orbit-letters">
+          </div>
+          <div className="feature feature--type">
             <div className="feature__surface">
               <OrbitLetters text="LOREM IPSUM" intensity={1} />
             </div>
             <div className="feature__caption">
-              <span>TEXT / 02</span>
-              <strong>Orbit Letters</strong>
-              <b>↗</b>
+              <span>TYPE STUDY / 03</span>
+              <strong>Dolor type</strong>
+              <b>✳</b>
             </div>
-          </a>
+          </div>
         </div>
       </section>
 
-      <section className="playground">
+      <section className="playground" id="play">
         <div className="playground__header">
           <span className="overline">003 / MAKE IT MOVE</span>
           <span>LIVE / FULLY CONFIGURABLE</span>
@@ -232,8 +285,8 @@ export function Home() {
                 />
               </label>
             </div>
-            <a href="#/effect/tidal-lattice">
-              EXPLORE THIS COMPONENT <span>↗</span>
+            <a href="#process">
+              CONTINUE THE JOURNEY <span>↗</span>
             </a>
           </div>
           <div className="playground__visual">
@@ -250,10 +303,10 @@ export function Home() {
         </div>
       </section>
 
-      <section className="journey">
+      <section className="journey" id="process">
         <div className="journey__head">
-          <span>004 / THE COLLECTION</span>
-          <span>DRAG THE PAGE WITH YOUR SCROLL ↓</span>
+          <span>004 / THE PROCESS</span>
+          <span>SCROLL TO MOVE THROUGH THE STORY ↓</span>
         </div>
         <div className="journey__rail">
           <div className="journey__lead">
@@ -271,51 +324,43 @@ export function Home() {
           </div>
           {[
             {
-              name: "TEXT",
-              count: "05",
-              slug: "split-reveal",
+              name: "LOREM",
+              count: "01",
               mark: "A",
               className: "journey__tile--text",
             },
             {
-              name: "FIELDS",
-              count: "05",
-              slug: "tidal-lattice",
+              name: "IPSUM",
+              count: "02",
               mark: "✳",
               className: "journey__tile--fields",
             },
             {
-              name: "OBJECTS",
-              count: "04",
-              slug: "bearing-card",
+              name: "DOLOR",
+              count: "03",
               mark: "◩",
               className: "journey__tile--objects",
             },
             {
-              name: "SYSTEMS",
-              count: "02",
-              slug: "orbital-matter",
+              name: "AMET",
+              count: "04",
               mark: "◎",
               className: "journey__tile--systems",
             },
           ].map((item, i) => (
-            <a
-              className={`journey__tile ${item.className}`}
-              href={`#/effect/${item.slug}`}
-              key={item.name}
-            >
-              <span>0{i + 1} / COLLECTION</span>
+            <div className={`journey__tile ${item.className}`} key={item.name}>
+              <span>0{i + 1} / PHASE</span>
               <b>{item.mark}</b>
               <div>
                 <strong>{item.name}</strong>
-                <span>{item.count} STUDIES ↗</span>
+                <span>PHASE {item.count} / 04</span>
               </div>
-            </a>
+            </div>
           ))}
         </div>
       </section>
 
-      <section className="experimental">
+      <section className="experimental" id="experiments">
         <div className="experimental__visual">
           <OrbitalMatter speed={0.5} density={48} intensity={0.9} />
         </div>
@@ -330,14 +375,14 @@ export function Home() {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
             ullamcorper nulla non metus auctor fringilla.
           </p>
-          <a href="#/effect/orbital-matter">
-            ENTER EXPERIMENTAL <b>↗</b>
+          <a href="#contact">
+            TO THE FINAL FRAME <b>↗</b>
           </a>
         </div>
         <span className="experimental__coordinate">X: 48.02 / Y: 16.81</span>
       </section>
 
-      <section className="finale">
+      <section className="finale" id="contact">
         <div className="finale__texture">
           <AuroraVeil speed={0.25} intensity={0.35} />
         </div>
@@ -356,15 +401,15 @@ export function Home() {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae
             elit libero, a pharetra augue.
           </p>
-          <a href="#/effect/split-reveal">
-            BROWSE ALL 31 STUDIES <b>↗</b>
+          <a href="#top">
+            REPLAY THE JOURNEY <b>↗</b>
           </a>
         </div>
       </section>
       <footer className="site-footer">
         <span>FORM / FIELD — A FICTIONAL TEMPLATE</span>
         <span>BUILT TO BE TAKEN APART.</span>
-        <a href="#/">BACK TO TOP ↑</a>
+        <a href="#top">BACK TO TOP ↑</a>
       </footer>
     </div>
   );
