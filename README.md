@@ -6,13 +6,8 @@ A static website that displays **TEST** on the homepage. The deployable files ar
 
 From the repository root, run `python -m http.server 8000 --directory public`, then visit <http://localhost:8000/>.
 
-## Deploy with Cloudflare Pages
+## Deploy with Cloudflare Workers
 
-In Cloudflare **Workers & Pages**, create a Pages project by importing this GitHub repository. Use these settings:
+In Cloudflare **Workers & Pages**, connect this GitHub repository to a Worker. Use `main` as the production branch, leave the build command empty, and use `npx wrangler deploy` as the deploy command.
 
-- Production branch: `main`
-- Framework preset: None
-- Build command: `exit 0`
-- Build output directory: `public`
-
-The `wrangler.toml` file also points Cloudflare Pages to `public/`. No environment variables or secrets are required.
+The `wrangler.toml` file deploys the static files in `public/` without a Worker script. No environment variables or secrets are required.
